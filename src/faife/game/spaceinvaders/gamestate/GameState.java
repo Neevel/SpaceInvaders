@@ -98,7 +98,7 @@ public class GameState extends ScreenAdapter {
 		}
 		
 		if(player_lives < 1) {
-			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverState(score));
+			gameOver();
 		}
 	}
 	
@@ -112,8 +112,7 @@ public class GameState extends ScreenAdapter {
 			}
 			// enemy-player
 			if(e.getBoundingBox().overlaps(player.getBoundingBox())) {
-				e.kill();
-				player.kill();
+				gameOver();
 			}
 		}
 	}
@@ -162,6 +161,10 @@ public class GameState extends ScreenAdapter {
 			}
 		}
 		
+	}
+	
+	private void gameOver() {
+		((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverState(score));
 	}
 	
 
