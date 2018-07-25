@@ -1,6 +1,5 @@
 package faife.game.spaceinvaders;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplet;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 

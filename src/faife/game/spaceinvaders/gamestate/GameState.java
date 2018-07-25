@@ -2,6 +2,7 @@ package faife.game.spaceinvaders.gamestate;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import faife.game.spaceinvaders.SIMain;
+import faife.game.spaceinvaders.gameoverstate.GameOverState;
 import faife.game.spaceinvaders.util.Constants;
 
 public class GameState extends ScreenAdapter {
@@ -26,6 +28,9 @@ public class GameState extends ScreenAdapter {
 	private Rocket rocket;
 	private ArrayList<Enemy> enemies;
 	private Bomb bomb;
+	private int level;
+	private int player_lives;
+	private int score;
 	
 	@Override
 	public void show() {
@@ -34,17 +39,18 @@ public class GameState extends ScreenAdapter {
 		gameCam = new OrthographicCamera();
 		viewport = new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, gameCam);
 		
+		level = 1;
+		player_lives = 3;
+		score = 0;
+		
 		background = new Texture("textures/bg.jpg");
-		player = new Player(new Texture("textures/player.png"), new Vector2(10, 7.5f), 1f, 1f, this);
-		rocket = new Rocket(new Texture("textures/rocket.png"), new Vector2(-10f, -10f), player.getWidth() * .2f, player.getHeight() * .8f, this);
+		
+		player = new Player(new Texture("textures/player.png"), Constants.PLAYER_BASE_POS, 1f, 1f, this);
+		rocket = new Rocket(new Texture("textures/rocket.png"), Constants.ROCKET_REST_POS, player.getWidth() * .2f, player.getHeight() * .8f, this);
+		bomb = new Bomb(new Texture("textures/bomb.png"), Constants.BOMB_REST_POS, .2f, 1f, this);
 		enemies = new ArrayList<>();
 		
-		for(int y = 0; y < 5; y++) {
-			for(int x = 0; x < 10; x++) {
-				enemies.add(new Enemy(new Texture("textures/enemy.png"), new Vector2(x * 1.5f, Constants.VIRTUAL_HEIGHT - 1f - (1.5f * y)), 1f, 1f, this));
-			}
-		}
-		bomb = new Bomb(new Texture("textures/bomb.png"), new Vector2(10f, Constants.VIRTUAL_HEIGHT), .2f, 1f, this);
+		init();
 	}
 
 	@Override
@@ -81,10 +87,43 @@ public class GameState extends ScreenAdapter {
 				batch.draw(e.getTex(), e.getPosition().x, e.getPosition().y, e.getWidth(), e.getHeight());
 			}
 			batch.draw(bomb.getTex(), bomb.getPosition().x, bomb.getPosition().y, bomb.getWidth(), bomb.getHeight());
-			batch.end();
+		batch.end();
 		
+		checkCollisions();
+		removeDeadObjects();
+	
+		if(enemies.isEmpty()) {
+			level++;
+			init();
+		}
+		
+		if(player_lives < 1) {
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverState(score));
+		}
+	}
+	
+	private void checkCollisions() {
 		// Collision check here (broad only, pixelperfect later)
-		
+		// enemy-rocket
+		for(Enemy e : enemies) {
+			if(e.getBoundingBox().overlaps(rocket.getBoundingBox())) {
+				e.kill();
+				rocket.kill();
+			}
+			// enemy-player
+			if(e.getBoundingBox().overlaps(player.getBoundingBox())) {
+				e.kill();
+				player.kill();
+			}
+		}
+	}
+	
+	private void removeDeadObjects() {
+		for(int i = 0; i < enemies.size(); i++) {
+			if(!enemies.get(i).isAlive) {
+				enemies.remove(i);
+			}
+		}
 	}
 	
 	public void shoot(float x) {
@@ -105,6 +144,24 @@ public class GameState extends ScreenAdapter {
 		for(Enemy e : enemies) {
 			e.toggleDirection();
 		}
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
+	private void init() {
+		player.setPosition(Constants.PLAYER_BASE_POS.x);
+		rocket.reset();
+		bomb.reset();
+		
+		enemies.clear();
+		for(int y = 0; y < 5; y++) {
+			for(int x = 0; x < 10; x++) {
+				enemies.add(new Enemy(new Texture("textures/enemy.png"), new Vector2(x * 1.5f, Constants.VIRTUAL_HEIGHT - 1f - (1.5f * y)), 1f, 1f, this));
+			}
+		}
+		
 	}
 	
 

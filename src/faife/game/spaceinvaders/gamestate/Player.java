@@ -16,7 +16,7 @@ public class Player extends GameObject {
 		
 		this.parent = parent;
 		
-		speed = 10;
+		speed = Constants.PLAYER_BASESPEED * (parent.getLevel() + parent.getLevel() / 100);
 	}
 
 	@Override
@@ -37,6 +37,10 @@ public class Player extends GameObject {
 				parent.shoot(position.x + width / 2);
 			}
 		}
+	}
+	
+	public void setPosition(float x) {
+		position.set(x, 0);
 	}
 
 }

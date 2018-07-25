@@ -12,7 +12,7 @@ public class Rocket extends GameObject {
 	
 	public Rocket(Texture tex, Vector2 position, float width, float height, GameState parent) {
 		super(tex, position, width, height, parent);
-		speed = 50f;
+		speed = Constants.ROCKET_BASESPEED * (parent.getLevel() + parent.getLevel() / 100);
 		isActive = false;
 	}
 	
@@ -23,8 +23,7 @@ public class Rocket extends GameObject {
 			position.y += speed * delta;
 		}
 		if(position.y > Constants.VIRTUAL_HEIGHT) {
-			setActive(false);
-			reset();
+			kill();
 		}
 	}
 
@@ -37,10 +36,16 @@ public class Rocket extends GameObject {
 	}
 	
 	public void reset() {
-		setPosition(new Vector2(-10f, -10f));
+		setPosition(Constants.ROCKET_REST_POS);
 	}
 	
 	public boolean isActive() {
 		return isActive;
+	}
+	
+	@Override
+	public void kill() {
+		setActive(false);
+		reset();
 	}
 }

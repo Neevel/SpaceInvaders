@@ -15,7 +15,7 @@ public class Enemy extends GameObject {
 		this.parent = parent;
 		
 		direction = 1;
-		speed = 4f;
+		speed = Constants.ENEMY_BASESPEED * (parent.getLevel() + (parent.getLevel() / 100));
 	}
 
 	@Override
