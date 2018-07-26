@@ -129,6 +129,7 @@ public class GameState extends ScreenAdapter {
 				gameOver();
 			}
 		}
+		// player - bomb
 	}
 	
 	private void removeDeadObjects() {
