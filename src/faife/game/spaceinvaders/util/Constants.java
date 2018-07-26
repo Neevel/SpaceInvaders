@@ -20,6 +20,6 @@ public class Constants {
 	public static final float ROCKET_BASESPEED = 50f;
 	public static final Vector2 ROCKET_REST_POS = new Vector2(-10f, -10f);
 	
-	public static final float BOMB_BASESPEED = 15f;
+	public static final float BOMB_BASESPEED = 20f;
 	public static final Vector2 BOMB_REST_POS = new Vector2(0f, 20f);
 }

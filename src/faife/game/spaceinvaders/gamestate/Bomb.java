@@ -31,7 +31,7 @@ public class Bomb extends GameObject{
 		setPosition(Constants.BOMB_REST_POS);
 	}
 	
-	private void setPosition(Vector2 pos) {
+	public void setPosition(Vector2 pos) {
 		position.set(pos);
 	}
 
@@ -45,7 +45,7 @@ public class Bomb extends GameObject{
 		reset();
 	}
 
-	private void setActive(boolean active) {
+	public void setActive(boolean active) {
 		isActive = active;
 		
 	}

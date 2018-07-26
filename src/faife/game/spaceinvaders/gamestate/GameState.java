@@ -1,6 +1,7 @@
 package faife.game.spaceinvaders.gamestate;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -33,6 +34,9 @@ public class GameState extends ScreenAdapter {
 	private int player_lives;
 	private int score;
 	private HUD hud;
+	private Random random;
+	private Vector2 temp;
+	private int i;
 	
 	@Override
 	public void show() {
@@ -56,6 +60,9 @@ public class GameState extends ScreenAdapter {
 		enemies = new ArrayList<>();
 		hud = new HUD(this);
 		
+		temp = new Vector2();
+		random = new Random();
+		
 		init();
 	}
 
@@ -76,6 +83,10 @@ public class GameState extends ScreenAdapter {
 		
 		gameCam.update();
 		hudCam.update();
+
+		if(!bomb.isActive()) {
+			dropBomb();
+		}
 		
 		player.update(delta);
 		rocket.update(delta);
@@ -130,6 +141,10 @@ public class GameState extends ScreenAdapter {
 			}
 		}
 		// player - bomb
+		if(player.getBoundingBox().overlaps(bomb.getBoundingBox())) {
+			player_lives --;
+			bomb.kill();
+		}
 	}
 	
 	private void removeDeadObjects() {
@@ -138,6 +153,12 @@ public class GameState extends ScreenAdapter {
 				enemies.remove(i);
 			}
 		}
+	}
+	
+	private void dropBomb() {
+		i = random.nextInt(50);
+		bomb.setPosition(temp.set(enemies.get(i).getPosition().x + enemies.get(i).getWidth() / 2, enemies.get(i).getPosition().y + enemies.get(i).getHeight() / 2));
+		bomb.setActive(true);
 	}
 	
 	public void shoot(float x) {
