@@ -10,14 +10,14 @@ public class GameOverState extends ScreenAdapter {
 	
 	public GameOverState(int score) {
 		this.score = score;
+		
+		System.out.println("Score: " + score);
 	}
 	
 	@Override
 	public void render(float delta) {
 		Gdx.gl20.glClearColor(0, 0, 0, 0);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		System.out.println("Game over nap");
 	}
 
 	@Override

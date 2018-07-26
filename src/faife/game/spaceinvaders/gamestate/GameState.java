@@ -23,6 +23,7 @@ public class GameState extends ScreenAdapter {
 	private SpriteBatch batch;
 	private Texture background;
 	private Camera gameCam;
+	private Camera hudCam;
 	private Viewport viewport;
 	private Player player;
 	private Rocket rocket;
@@ -31,6 +32,7 @@ public class GameState extends ScreenAdapter {
 	private int level;
 	private int player_lives;
 	private int score;
+	private HUD hud;
 	
 	@Override
 	public void show() {
@@ -38,6 +40,9 @@ public class GameState extends ScreenAdapter {
 	
 		gameCam = new OrthographicCamera();
 		viewport = new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, gameCam);
+		
+		hudCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		hudCam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
 		
 		level = 1;
 		player_lives = 3;
@@ -49,6 +54,7 @@ public class GameState extends ScreenAdapter {
 		rocket = new Rocket(new Texture("textures/rocket.png"), Constants.ROCKET_REST_POS, player.getWidth() * .2f, player.getHeight() * .8f, this);
 		bomb = new Bomb(new Texture("textures/bomb.png"), Constants.BOMB_REST_POS, .2f, 1f, this);
 		enemies = new ArrayList<>();
+		hud = new HUD(this);
 		
 		init();
 	}
@@ -69,6 +75,7 @@ public class GameState extends ScreenAdapter {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		gameCam.update();
+		hudCam.update();
 		
 		player.update(delta);
 		rocket.update(delta);
@@ -77,7 +84,7 @@ public class GameState extends ScreenAdapter {
 		for(Enemy e : enemies) {
 			e.update(delta);
 		}
-		
+			
 		batch.setProjectionMatrix(gameCam.combined);
 		batch.begin();
 			batch.draw(background, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -87,6 +94,12 @@ public class GameState extends ScreenAdapter {
 				batch.draw(e.getTex(), e.getPosition().x, e.getPosition().y, e.getWidth(), e.getHeight());
 			}
 			batch.draw(bomb.getTex(), bomb.getPosition().x, bomb.getPosition().y, bomb.getWidth(), bomb.getHeight());
+		batch.end();
+		
+		hud.update();
+		batch.setProjectionMatrix(hudCam.combined);
+		batch.begin();
+			hud.render(batch);
 		batch.end();
 		
 		checkCollisions();
@@ -109,6 +122,7 @@ public class GameState extends ScreenAdapter {
 			if(e.getBoundingBox().overlaps(rocket.getBoundingBox())) {
 				e.kill();
 				rocket.kill();
+				score += level;
 			}
 			// enemy-player
 			if(e.getBoundingBox().overlaps(player.getBoundingBox())) {
@@ -147,6 +161,14 @@ public class GameState extends ScreenAdapter {
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public int getPlayer_lives() {
+		return player_lives;
+	}
+
+	public int getScore() {
+		return score;
 	}
 	
 	private void init() {
