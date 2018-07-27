@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
+import faife.game.spaceinvaders.util.Constants;
+
 public class HUD {
 	
 	private GameState parent;
@@ -32,10 +34,6 @@ public class HUD {
 		levelPos = tmp * 8;
 	}
 	
-	public void update() {
-		
-	}
-	
 	public void render(SpriteBatch batch) {
 		Color c = batch.getColor();
 		batch.setColor(c.r, c.g, c.b, 0.4f);
@@ -49,5 +47,5 @@ public class HUD {
 		font.dispose();
 		generator.dispose();
 	}
-
+	
 }

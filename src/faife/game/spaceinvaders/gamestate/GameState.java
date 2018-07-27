@@ -25,7 +25,7 @@ public class GameState extends ScreenAdapter {
 	private Texture background;
 	private Camera gameCam;
 	private Camera hudCam;
-	private Viewport viewport;
+	private Viewport viewport, hudViewport;
 	private Player player;
 	private Rocket rocket;
 	private ArrayList<Enemy> enemies;
@@ -45,8 +45,8 @@ public class GameState extends ScreenAdapter {
 		gameCam = new OrthographicCamera();
 		viewport = new FitViewport(Constants.VIRTUAL_WIDTH, Constants.VIRTUAL_HEIGHT, gameCam);
 		
-		hudCam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		hudCam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+		hudCam = new OrthographicCamera();
+		hudViewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), hudCam);
 		
 		level = 1;
 		player_lives = 3;
@@ -107,7 +107,6 @@ public class GameState extends ScreenAdapter {
 			batch.draw(bomb.getTex(), bomb.getPosition().x, bomb.getPosition().y, bomb.getWidth(), bomb.getHeight());
 		batch.end();
 		
-		hud.update();
 		batch.setProjectionMatrix(hudCam.combined);
 		batch.begin();
 			hud.render(batch);
@@ -169,6 +168,7 @@ public class GameState extends ScreenAdapter {
 	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height, true);
+		hudViewport.update(width, height, true);
 	}
 
 	public Rocket getRocket() {
@@ -208,7 +208,11 @@ public class GameState extends ScreenAdapter {
 	}
 	
 	private void gameOver() {
-		((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverState(score));
+		if(score == 0) {
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverState());
+		} else {
+			((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverState(score));
+		}
 	}
 	
 

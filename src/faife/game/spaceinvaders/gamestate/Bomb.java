@@ -12,7 +12,7 @@ public class Bomb extends GameObject{
 
 	public Bomb(Texture tex, Vector2 position, float width, float height, GameState parent) {
 		super(tex, position, width, height, parent);
-		speed = Constants.BOMB_BASESPEED * (parent.getLevel() + parent.getLevel() / 100);
+		speed = Constants.BOMB_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
 		isActive = false;
 	}
 

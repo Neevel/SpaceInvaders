@@ -30,36 +30,28 @@ public class GameOverState extends ScreenAdapter {
 	private FreeTypeFontParameter parameter;
 	
 	public GameOverState() {
-		highscore = Gdx.app.getPreferences("highscore");
-		
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SalemErgotism.ttf"));
-		parameter = new FreeTypeFontParameter();
-		parameter.size = 50;
-		font = generator.generateFont(parameter);
-		
-		batch = ((SIMain) Gdx.app.getApplicationListener()).getBatch();
-		
+		init();
 		scoreIsSet = true;
 	}
 	
 	public GameOverState(int score) {
 		this.score = score;
-		highscore = Gdx.app.getPreferences("highscore");
-		
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SalemErgotism.ttf"));
-		parameter = new FreeTypeFontParameter();
-		parameter.size = 50;
-		font = generator.generateFont(parameter);
-		
-		batch = ((SIMain) Gdx.app.getApplicationListener()).getBatch();
-		
+
+		init();
 		gotName = false;
 		scoreIsSet = false;
 		checkScore();
 	}
 	
 	private void init() {
+		highscore = Gdx.app.getPreferences("highscore");
 		
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SalemErgotism.ttf"));
+		parameter = new FreeTypeFontParameter();
+		parameter.size = 50;
+		font = generator.generateFont(parameter);
+		
+		batch = ((SIMain) Gdx.app.getApplicationListener()).getBatch();
 	}
 	
 	private void checkScore() {
