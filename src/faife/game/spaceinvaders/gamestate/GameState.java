@@ -195,8 +195,11 @@ public class GameState extends ScreenAdapter {
 	
 	private void init() {
 		player.setPosition(Constants.PLAYER_BASE_POS.x);
+		player.setSpeed();
 		rocket.reset();
+		rocket.setSpeed();
 		bomb.reset();
+		bomb.setSpeed();
 		
 		enemies.clear();
 		for(int y = 0; y < 5; y++) {
@@ -204,7 +207,9 @@ public class GameState extends ScreenAdapter {
 				enemies.add(new Enemy(new Texture("textures/enemy.png"), new Vector2(x * 1.5f, Constants.VIRTUAL_HEIGHT - 1f - (1.5f * y)), 1f, 1f, this));
 			}
 		}
-		
+		for(Enemy e : enemies) {
+			e.setSpeed();
+		}
 	}
 	
 	private void gameOver() {

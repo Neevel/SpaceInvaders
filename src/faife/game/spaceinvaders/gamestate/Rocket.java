@@ -12,7 +12,7 @@ public class Rocket extends GameObject {
 	
 	public Rocket(Texture tex, Vector2 position, float width, float height, GameState parent) {
 		super(tex, position, width, height, parent);
-		speed = Constants.ROCKET_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
+		speed = Constants.ROCKET_BASESPEED;
 		isActive = false;
 	}
 	
@@ -48,4 +48,9 @@ public class Rocket extends GameObject {
 		setActive(false);
 		reset();
 	}
+	
+	public void setSpeed() {
+		speed = Constants.ROCKET_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
+	}
+	
 }

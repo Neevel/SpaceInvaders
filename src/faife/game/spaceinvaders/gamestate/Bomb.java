@@ -12,7 +12,7 @@ public class Bomb extends GameObject{
 
 	public Bomb(Texture tex, Vector2 position, float width, float height, GameState parent) {
 		super(tex, position, width, height, parent);
-		speed = Constants.BOMB_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
+		speed = Constants.BOMB_BASESPEED;
 		isActive = false;
 	}
 
@@ -47,6 +47,10 @@ public class Bomb extends GameObject{
 
 	public void setActive(boolean active) {
 		isActive = active;
-		
 	}
+	
+	public void setSpeed() {
+		speed = Constants.BOMB_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
+	}
+	
 }

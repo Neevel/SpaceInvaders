@@ -16,7 +16,7 @@ public class Player extends GameObject {
 		
 		this.parent = parent;
 		
-		speed = Constants.PLAYER_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
+		speed = Constants.PLAYER_BASESPEED;
 	}
 
 	@Override
@@ -43,4 +43,8 @@ public class Player extends GameObject {
 		position.set(x, 0);
 	}
 
+	public void setSpeed() {
+		speed = Constants.PLAYER_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
+	}
+	
 }

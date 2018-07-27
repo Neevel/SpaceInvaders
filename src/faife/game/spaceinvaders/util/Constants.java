@@ -23,5 +23,5 @@ public class Constants {
 	public static final float BOMB_BASESPEED = 20f;
 	public static final Vector2 BOMB_REST_POS = new Vector2(0f, 20f);
 	
-	public static final float LEVEL_INCREMENT_SPEED_DIVISOR = 800;
+	public static final float LEVEL_INCREMENT_SPEED_DIVISOR = 1600;
 }

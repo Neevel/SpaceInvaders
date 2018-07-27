@@ -15,7 +15,7 @@ public class Enemy extends GameObject {
 		this.parent = parent;
 		
 		direction = 1;
-		speed = Constants.ENEMY_BASESPEED * (parent.getLevel() + (parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR));
+		speed = Constants.ENEMY_BASESPEED;
 	}
 
 	@Override
@@ -31,6 +31,10 @@ public class Enemy extends GameObject {
 	public void toggleDirection() {
 		position.y -= .3f;
 		direction *= -1;
+	}
+	
+	public void setSpeed() {
+		speed = Constants.ENEMY_BASESPEED * (parent.getLevel() + parent.getLevel() / Constants.LEVEL_INCREMENT_SPEED_DIVISOR);
 	}
 
 }
