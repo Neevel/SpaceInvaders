@@ -156,7 +156,7 @@ public class GameState extends ScreenAdapter {
 	}
 	
 	private void dropBomb() {
-		i = random.nextInt(50);
+		i = random.nextInt(enemies.size());
 		bomb.setPosition(temp.set(enemies.get(i).getPosition().x + enemies.get(i).getWidth() / 2, enemies.get(i).getPosition().y + enemies.get(i).getHeight() / 2));
 		bomb.setActive(true);
 	}
