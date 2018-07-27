@@ -3,7 +3,7 @@ package faife.game.spaceinvaders;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import faife.game.spaceinvaders.gamestate.GameState;
+import faife.game.spaceinvaders.menustate.MenuState;
 
 public class SIMain extends Game {
 	
@@ -13,7 +13,7 @@ public class SIMain extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		
-		setScreen(new GameState());
+		setScreen(new MenuState());
 	}
 	
 	@Override
